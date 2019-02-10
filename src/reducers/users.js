@@ -1,33 +1,34 @@
+const defaultUsers = [
+  {
+    id: 1,
+    name: {
+      first: 'Iván',
+      last: 'Moreno'
+    },
+    avatar: '',
+    answeredPolls: []
+  }
+];
+
 const users = (state = [], action) => {
   switch (action.type) {
     case 'SUBMIT_VOTE':
-      return users.map(user => {
+      return state.map(user => {
         if (user.id === action.payload.userId) {
           return {
             ...user,
-            answeredPolls: state.filter(poll => {
-              if (poll.pollId === action.pollId) {
-                return false;
+            answeredPolls: [
+              ...user.answeredPolls.filter(poll => !(poll.pollId === action.payload.pollId)),
+              {
+                pollId: action.payload.pollId,
+                userAnswer: action.payload.answer
               }
-              return true;
-            }).push({
-              pollId: state.payload.pollId,
-              answer: state.payload.answer
-            })
+            ]
           };
         }
       });
     default:
-      return [
-        {
-          id: 1,
-          name: {
-            firstName: 'Iván',
-            lastName: 'Moreno'
-          },
-          answeredPolls: []
-        }
-      ];
+      return defaultUsers;
   }
 };
 

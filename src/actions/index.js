@@ -5,10 +5,14 @@ const newPoll = poll => {
   };
 };
 
-const submitVote = vote => {
+const submitVote = (userId, pollId, answer) => {
   return {
     type: 'SUBMIT_VOTE',
-    payload: vote
+    payload: {
+      userId,
+      pollId,
+      answer
+    }
   };
 };
 
