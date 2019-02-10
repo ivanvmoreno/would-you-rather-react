@@ -6,18 +6,37 @@ class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      filterPolls: 'unanswered'
+      filter: 'answered',
+      answeredPolls: []
     }
+    this.getAnsweredPolls = this.getAnsweredPolls.bind(this);
   }
 
-  getFilteredPolls() {
-    //if (this.state.filterPolls === 'unanswered')
+  componentWillMount() {
+    this.getAnsweredPolls();
+  }
+
+  getAnsweredPolls() {
+    let answeredPolls = this.props.users.filter(user => user.id === this.props.loggedUser)[0].answeredPolls.map(poll => poll.pollId);
+    this.setState({
+      answeredPolls
+    });
   }
 
   render() {
     return(
       <div>
-        <Poll pollInfo={this.props.polls[0]} users={this.props.users} loggedUser={1} />
+        {this.props.polls.filter(poll => {
+          let isAnswered = this.state.answeredPolls.indexOf(poll.id) !== -1 ? true : false;
+          if (this.state.filter === 'answered') {
+            return true;
+          }
+          return false;
+        }).map(poll => {
+          return(
+            <Poll users={this.props.users} pollInfo={poll} loggedUser={this.props.loggedUser} />
+          );
+        })}
       </div>
     );
   }

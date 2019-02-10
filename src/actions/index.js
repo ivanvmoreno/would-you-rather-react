@@ -1,7 +1,10 @@
-const newPoll = poll => {
+const newPoll = (answers, creator) => {
   return {
     type: 'NEW_POLL',
-    payload: poll
+    payload: {
+      answers,
+      creator
+    }
   };
 };
 

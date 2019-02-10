@@ -6,7 +6,22 @@ const defaultUsers = [
       last: 'Moreno'
     },
     avatar: '',
-    answeredPolls: []
+    answeredPolls: [{
+      pollId: 1,
+      userAnswer: 1
+    }]
+  },
+  {
+    id: 2,
+    name: {
+      first: 'Amparo',
+      last: 'Cencerrado'
+    },
+    avatar: '',
+    answeredPolls: [{
+      pollId: 1,
+      userAnswer: 0
+    }]
   }
 ];
 

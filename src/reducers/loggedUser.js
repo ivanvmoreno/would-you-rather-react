@@ -3,7 +3,7 @@ const loggedUser = (state = '', action) => {
     case 'USER_LOGIN':
       return action.payload;
     default:
-      return state;
+      return 1;
   }
 };
 
