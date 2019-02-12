@@ -10,7 +10,8 @@ export default class App extends Component {
     return(
       <div>
         <Navbar />
-        <Leaderboard />
+        <Login />
+        <Dashboard />
       </div>
     );
   }

@@ -1,12 +1,4 @@
-const defaultPolls = [
-  {
-    id: 1,
-    creator: 1,
-    answers: ['Test answer one','Test answer two']
-  }
-];
-
-const polls = (state = [], action) => {
+const questions = (state = [], action) => {
   switch(action.type) {
     case 'NEW_POLL':
       return [
@@ -17,9 +9,11 @@ const polls = (state = [], action) => {
           answers: [...action.payload.answers]
         }
       ];
+    case 'GET_QUESTIONS':
+      return action.payload;
     default:
-      return defaultPolls;
+      return state;
   }
 };
 
-export default polls;
+export default questions;

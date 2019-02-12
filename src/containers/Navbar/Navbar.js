@@ -22,7 +22,7 @@ class Navbar extends Component {
       return(
         <div>
           <ul>
-            <li>Hello, {`${this.state.loggedUserInfo.name.first} ${this.state.loggedUserInfo.name.last}`}</li>
+            <li>Hello, {}</li>
             <li>Avatar</li>
             <li>Logout</li>
           </ul>

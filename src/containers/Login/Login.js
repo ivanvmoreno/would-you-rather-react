@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Select from 'react-select';
-import { login } from '../../actions';
+import { getUsers, login } from '../../actions';
 
 class Login extends Component {
   constructor(props) {
@@ -13,13 +13,19 @@ class Login extends Component {
     this.handleUserSelected = this.handleUserSelected.bind(this);
   }
 
+  componentDidMount() {
+    this.props.getUsers();
+  }
+
   getSelectOptions() {
-    return this.props.users.map(user => {
-      return {
-        value: user.id,
-        label: `${user.name.first} ${user.name.last}`
-      };
-    });
+    let options = [];
+    for (let prop in this.props.users) {
+      options.push({
+        value: this.props.users[prop].id,
+        label: this.props.users[prop].name
+      });
+    }
+    return options;
   }
 
   handleUserSelected(selectedUser) {
@@ -29,25 +35,24 @@ class Login extends Component {
   render() {
     return(
       <div>
-        <div>Current logged user: {this.props.loggedUser}</div>
         <Select
           value={this.state.selectedUser}
           onChange={this.handleUserSelected}
           options={this.getSelectOptions()}
         />
-        <input type="button" value="Log in!" onClick={() => this.props.login(this.state.selectedUser.value)} />
+        <input type="button" value="Log in!" onClick={() => this.props.login(this.props.users[this.state.selectedUser.value])} />
       </div>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  users: state.users,
-  loggedUser: state.loggedUser
+  users: state.users
 });
 
 const mapDispatchToProps = dispatch => ({
-  login: userId => dispatch(login(userId))
+  login: userId => dispatch(login(userId)),
+  getUsers: () => dispatch(getUsers())
 });
 
 export default connect(

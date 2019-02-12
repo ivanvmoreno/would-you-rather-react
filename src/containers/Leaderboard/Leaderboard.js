@@ -17,7 +17,7 @@ class Leaderboard extends Component {
   getLeaders() {
     let users = this.props.users.map(user => {
       let answeredPolls = user.answeredPolls.length;
-      let createdPolls = this.props.polls.filter(poll => {
+      let createdPolls = this.props.questions.filter(poll => {
         return poll.id === user.id;
       }).length;
       return {

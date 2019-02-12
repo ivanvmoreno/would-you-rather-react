@@ -1,41 +1,44 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { getQuestions } from '../../actions';
 import Poll from '../../components/Poll/Poll';
 
 class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      filter: 'answered',
-      answeredPolls: []
+      filter: 'answered'
     }
-    this.getAnsweredPolls = this.getAnsweredPolls.bind(this);
+    this.getFilteredQuestions = this.getFilteredQuestions.bind(this);
   }
 
   componentWillMount() {
-    this.getAnsweredPolls();
   }
 
-  getAnsweredPolls() {
-    let answeredPolls = this.props.users.filter(user => user.id === this.props.loggedUser)[0].answeredPolls.map(poll => poll.pollId);
-    this.setState({
-      answeredPolls
-    });
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.loggedUser.id === "tylermcginnis") {
+      nextProps.getQuestions();
+    }
+  }
+
+  getFilteredQuestions() {
+    let filteredQuestions = [];
+    for (let question in this.props.questions) {
+      let isAnswered = this.props.loggedUser.answers.hasOwnProperty(this.props.questions[question].id) === true;
+      if (isAnswered && this.state.filter === 'answered') {
+        filteredQuestions.push(this.props.questions[question]);
+      } else if (!isAnswered && this.state.filter === 'unanswered') {
+        filteredQuestions.push(this.props.questions[question]);
+      }
+    }
+    return filteredQuestions;
   }
 
   render() {
     return(
       <div>
-        {this.props.polls.filter(poll => {
-          let isAnswered = this.state.answeredPolls.indexOf(poll.id) !== -1 ? true : false;
-          if (this.state.filter === 'answered') {
-            return true;
-          }
-          return false;
-        }).map(poll => {
-          return(
-            <Poll users={this.props.users} pollInfo={poll} loggedUser={this.props.loggedUser} />
-          );
+        {this.getFilteredQuestions().map(question => {
+          return(<div>{question.id}</div>);
         })}
       </div>
     );
@@ -44,8 +47,12 @@ class Dashboard extends Component {
 
 const mapStateToProps = state => ({
   users: state.users,
-  polls: state.polls,
+  questions: state.questions,
   loggedUser: state.loggedUser
 });
 
-export default connect(mapStateToProps)(Dashboard);
+const mapDispatchToProps = dispatch => ({
+  getQuestions: () => dispatch(getQuestions())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

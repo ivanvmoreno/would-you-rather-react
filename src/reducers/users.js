@@ -1,32 +1,7 @@
-const defaultUsers = [
-  {
-    id: 1,
-    name: {
-      first: 'Iván',
-      last: 'Moreno'
-    },
-    avatar: '',
-    answeredPolls: [{
-      pollId: 1,
-      userAnswer: 1
-    }]
-  },
-  {
-    id: 2,
-    name: {
-      first: 'Amparo',
-      last: 'Cencerrado'
-    },
-    avatar: '',
-    answeredPolls: [{
-      pollId: 1,
-      userAnswer: 0
-    }]
-  }
-];
-
 const users = (state = [], action) => {
   switch (action.type) {
+    case 'GET_USERS':
+      return action.payload;
     case 'SUBMIT_VOTE':
       return state.map(user => {
         if (user.id === action.payload.userId) {
@@ -43,7 +18,7 @@ const users = (state = [], action) => {
         }
       });
     default:
-      return defaultUsers;
+      return state;
   }
 };
 

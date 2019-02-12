@@ -1,3 +1,19 @@
+import { _getUsers, _getQuestions } from '../_DATA';
+
+const getUsers = () => {
+  return {
+    type: 'GET_USERS',
+    payload: _getUsers()
+  }
+};
+
+const getQuestions = () => {
+  return {
+    type: 'GET_QUESTIONS',
+    payload: _getQuestions()
+  };
+};
+
 const newPoll = (answers, creator) => {
   return {
     type: 'NEW_POLL',
@@ -26,4 +42,4 @@ const login = user => {
   };
 };
 
-export { newPoll, submitVote, login };
+export { getUsers, getQuestions, newPoll, submitVote, login };
