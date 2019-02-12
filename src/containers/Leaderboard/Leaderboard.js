@@ -38,7 +38,19 @@ class Leaderboard extends Component {
 
   render() {
     return(
-      <div>Test</div>
+      this.state.leaders.map(leader => {
+        return (
+          <div>
+            <div>Photo</div>
+            <div>
+              <h2>{leader.name.first} {leader.name.last}</h2>
+              <div>Answered questions: {leader.answeredPolls}</div>
+              <div>Created questions: {leader.createdPolls}</div>
+            </div>
+            <div>Score: {leader.score}</div>
+          </div>
+        );
+      })
     );
   }
 }
