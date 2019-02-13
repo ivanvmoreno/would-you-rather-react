@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import Select from 'react-select';
 import { getUsers, login } from '../../actions';
 
@@ -7,10 +8,12 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedUser: ''
+      selectedUser: '',
+      toDashboard: false
     }
     this.getSelectOptions = this.getSelectOptions.bind(this);
     this.handleUserSelected = this.handleUserSelected.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
   }
 
   componentDidMount() {
@@ -32,7 +35,18 @@ class Login extends Component {
     this.setState({ selectedUser: selectedUser });
   }
 
+  handleLogin() {
+    this.props.login(this.props.users[this.state.selectedUser.value]);
+    this.setState({
+      toDashboard: true
+    });
+  }
+
   render() {
+    if (this.state.toDashboard) {
+      return(<Redirect to="/dashboard" />);
+    }
+
     return(
       <div>
         <Select
@@ -40,7 +54,7 @@ class Login extends Component {
           onChange={this.handleUserSelected}
           options={this.getSelectOptions()}
         />
-        <input type="button" value="Log in!" onClick={() => this.props.login(this.props.users[this.state.selectedUser.value])} />
+        <input type="button" value="Log in!" onClick={this.handleLogin} />
       </div>
     );
   }

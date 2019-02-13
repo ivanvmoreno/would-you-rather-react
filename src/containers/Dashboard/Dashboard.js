@@ -12,15 +12,6 @@ class Dashboard extends Component {
     this.getFilteredQuestions = this.getFilteredQuestions.bind(this);
   }
 
-  componentWillMount() {
-  }
-
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.loggedUser.id === "tylermcginnis") {
-      nextProps.getQuestions();
-    }
-  }
-
   getFilteredQuestions() {
     let filteredQuestions = [];
     for (let question in this.props.questions) {
