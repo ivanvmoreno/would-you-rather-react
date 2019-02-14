@@ -36,10 +36,12 @@ class Login extends Component {
   }
 
   handleLogin() {
-    this.props.login(this.props.users[this.state.selectedUser.value]);
-    this.setState({
-      toDashboard: true
-    });
+    if (this.state.selectedUser) {
+      this.props.login(this.props.users[this.state.selectedUser.value]);
+      this.setState({
+        toDashboard: true
+      });
+    }
   }
 
   render() {

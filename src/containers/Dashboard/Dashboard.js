@@ -2,14 +2,21 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getQuestions } from '../../actions';
 import Poll from '../../components/Poll/Poll';
+import { Redirect } from 'react-router-dom';
 
 class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      filter: 'answered'
+      filter: 'answered',
+      clickedPoll: '',
     }
     this.getFilteredQuestions = this.getFilteredQuestions.bind(this);
+    this.getUserFromId = this.getUserFromId.bind(this);
+  }
+
+  componentWillMount() {
+    this.props.getQuestions();
   }
 
   getFilteredQuestions() {
@@ -25,11 +32,42 @@ class Dashboard extends Component {
     return filteredQuestions;
   }
 
+  getUserFromId(id) {
+    let match;
+    for (let user in this.props.users) {
+      let currentUser = this.props.users[user];
+      if (currentUser.id === id) {
+        match = currentUser;
+      }
+    }
+    return match;
+  }
+
+  handleViewPoll(questionId) {
+
+  }
+
   render() {
+    if (this.state.clickedPoll) {
+      return <Redirect to="/login" />;
+    }
+
     return(
       <div>
         {this.getFilteredQuestions().map(question => {
-          return(<div>{question.id}</div>);
+          let questionCreator = this.getUserFromId(question.author);
+          return(
+            <div>
+              <div>{questionCreator.name} asks...</div>
+              <div>
+                <div>Avatar</div>
+                <div>
+                  <h3>Would you rather...</h3>
+                  <p>{question.optionOne.text}</p>
+                  <button type="button" onClick={() => this.setState({clickedPoll: 'dhdhh'})}>View poll</button>
+                </div>
+              </div>
+            </div>);
         })}
       </div>
     );
