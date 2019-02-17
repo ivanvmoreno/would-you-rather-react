@@ -1,39 +1,46 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { newPoll } from '../../actions';
+import { Redirect } from 'react-router-dom';
 
 class NewPoll extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      answers: ['','']
-    }
-    this.handleInputChange = this.handleInputChange.bind(this);
+  state = {
+    optionOne: '',
+    optionTwo: '',
+    toDashboard: false
   }
 
+  handleInputChange = this.handleInputChange.bind(this);
+  handleButtonClick = this.handleButtonClick.bind(this);
+
   handleInputChange(event) {
-    let updatedInput = this.state.answers.map((answer, index) => {
-      if ((!event.target.previousSibling && index === 0) || (event.target.previousSibling && index === 1)) {
-        return event.target.value;
-      }
-      return answer;
-    });
     this.setState({
-      answers: updatedInput
-    })
+      [event.target.id]: event.target.value
+    });
+  }
+
+  handleButtonClick() {
+    this.props.newPoll(this.state.optionOne, this.state.optionTwo, this.props.loggedUser);
+    this.setState({
+      toDashboard: true
+    });
   }
 
   render() {
+    if (this.state.toDashboard) {
+      return(<Redirect to="/" />);
+    }
+
     return(
       <div>
         <div>Create new question</div>
         <div>
           <h3>Would you rather...</h3>
             <div>
-              <input type="text" onChange={this.handleInputChange} value={this.state.answers[0]} />
+              <input id="optionOne" type="text" onChange={this.handleInputChange} value={this.state.optionOne} />
               <hr />
-              <input type="text" onChange={this.handleInputChange} value={this.state.answers[1]} />
-              <button type="button" onClick={() => this.props.newPoll(this.state.answers, this.props.loggedUser)}>Create new poll</button>
+              <input id="optionTwo" type="text" onChange={this.handleInputChange} value={this.state.optionTwo} />
+              <button type="button" onClick={this.handleButtonClick}>Create new poll</button>
             </div>
         </div>
       </div>
@@ -46,7 +53,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  newPoll: (answers, creator) => dispatch(newPoll(answers, creator))
+  newPoll: (optionOne, optionTwo, creator) => dispatch(newPoll(optionOne, optionTwo, creator))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewPoll);

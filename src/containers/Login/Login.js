@@ -37,7 +37,7 @@ class Login extends Component {
 
   handleLogin() {
     if (this.state.selectedUser) {
-      this.props.login(this.props.users[this.state.selectedUser.value]);
+      this.props.login(this.state.selectedUser.value);
       this.setState({
         toDashboard: true
       });
@@ -46,7 +46,7 @@ class Login extends Component {
 
   render() {
     if (this.state.toDashboard) {
-      return(<Redirect to="/dashboard" />);
+      return(<Redirect to="/" />);
     }
 
     return(
@@ -71,7 +71,4 @@ const mapDispatchToProps = dispatch => ({
   getUsers: () => dispatch(getUsers())
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

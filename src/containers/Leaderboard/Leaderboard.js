@@ -1,60 +1,49 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
-class Leaderboard extends Component {
-  constructor(props) {
-    super(props);
-    this.getLeaders = this.getLeaders.bind(this);
+const getLeaders = (users) => {
+  const filteredUsers = [];
+  for (let user in users) {
+    const currentUser = users[user];
+    let answeredPolls = Object.keys(currentUser.answers).length;
+    let createdPolls = currentUser.questions.length;
+    filteredUsers.push({
+      id: currentUser.id,
+      name: currentUser.name,
+      avatarURL: currentUser.avatarURL,
+      answeredPolls,
+      createdPolls,
+      score: answeredPolls + createdPolls
+    });
   }
+  while (filteredUsers.length > 3) {
+    filteredUsers.splice(filteredUsers.findIndex(user => user.score === Math.min(...filteredUsers.map(user => user.score))));
+  }
+  return filteredUsers.sort((a,b) => -(a.score)+b.score);
+}
 
-  componentDidMount() {
-  }
-
-  getLeaders() {
-    const users = [];
-    for (let user in this.props.users) {
-      const currentUser = this.props.users[user];
-      let answeredPolls = Object.keys(currentUser.answers).length;
-      let createdPolls = currentUser.questions.length;
-      users.push({
-        id: user.id,
-        name: user.name,
-        avatarURL: currentUser.avatarURL,
-        answeredPolls,
-        createdPolls,
-        score: answeredPolls + createdPolls
-      });
-    }
-    while (users.length > 3) {
-      users.splice(users.findIndex(user => user.score === Math.min(...users.map(user => user.score))));
-    }
-    return users;
-  }
-
-  render() {
-    return(<div>Test</div>
-      // <div>
-      //   {this.getLeaders().map(leader => {
-      //     return (
-      //       <div>
-      //         <div>Photo</div>
-      //         <div>
-      //           <h2>{leader.name.first} {leader.name.last}</h2>
-      //           <div>Answered questions: {leader.answeredPolls}</div>
-      //           <div>Created questions: {leader.createdPolls}</div>
-      //         </div>
-      //         <div>Score: {leader.score}</div>
-      //       </div>
-      //     );
-      //   })}
-      // </div>
-    );
-  }
+const Leaderboard = props => {
+  return(
+    <div>
+      {getLeaders(props.users).map(leader => {
+        return (
+          <div key={leader.id}>
+            <div>Photo</div>
+            <div>
+              <h2>{leader.name} {leader.name.last}</h2>
+              <div>Answered questions: {leader.answeredPolls}</div>
+              <div>Created questions: {leader.createdPolls}</div>
+            </div>
+            <div>Score: {leader.score}</div>
+          </div>
+        );
+      })}
+    </div>
+  );
 }
 
 const mapStateToProps = state => ({
-  users: state.users,
-  loggedUser: state.loggedUser
+  users: state.users
 });
 
 export default connect(mapStateToProps)(Leaderboard);

@@ -1,50 +1,32 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { logout } from '../../actions';
 
 class Navbar extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      loggedUserInfo: {}
-    }
-    this.getLoggedUserInfo = this.getLoggedUserInfo.bind(this);
-    this.loggedMenu = this.loggedMenu.bind(this);
-  }
-
-  componentWillMount() {
-    if (this.props.loggedUser) {
-      this.getLoggedUserInfo();
-    }
-  }
-
   loggedMenu() {
     if (this.props.loggedUser) {
       return(
         <div>
           <ul>
-            <li>Hello, {}</li>
-            <li>Avatar</li>
-            <li>Logout</li>
+            <li>Hello, {this.props.users[this.props.loggedUser].name}</li>
+            <li>{this.props.users[this.props.loggedUser].avatarURL}</li>
+            <li><a href="javascript:void(0)" onClick={() => this.props.logout()}>Logout</a></li>
           </ul>
         </div>
       );
     }
   }
 
-  getLoggedUserInfo() {
-    let loggedUserInfo = this.props.users.filter(user => user.id === this.props.loggedUser)[0];
-    this.setState({
-      loggedUserInfo
-    });
-  }
+  loggedMenu = this.loggedMenu.bind(this);
 
   render() {
     return(
       <div>
         <ul>
-          <li>Home</li>
-          <li>New question</li>
-          <li>Leaderboard</li>
+          <li><Link to="/">Home</Link></li>
+          <li><Link to="/add">New question</Link></li>
+          <li><Link to="/leaderboard">Leaderboard</Link></li>
         </ul>
         {this.loggedMenu()}
       </div>
@@ -57,4 +39,8 @@ const mapStateToProps = state => ({
   users: state.users
 });
 
-export default connect(mapStateToProps)(Navbar);
+const mapDispatchToProps = dispatch => ({
+  logout: () => dispatch(logout())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

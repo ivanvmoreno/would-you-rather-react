@@ -1,50 +1,24 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class PollResults extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      userAnswers: [],
-      totalUsers: 0
-    }
-    this.getPollStats = this.getPollStats.bind(this);
-  }
+const PollResults = (props) => {
+  
+  let totalVotes = props.question.optionOne.votes.length+props.question.optionTwo.votes.length;
 
-  componentWillMount() {
-    this.getPollStats();
-  }
-
-  getPollStats() {
-    let userAnswers = [0,0];
-    let totalUsers = this.props.users.filter(user => {
-      let answerIndex = user.answeredPolls.findIndex(answeredPoll => answeredPoll.pollId === this.props.pollInfo.id);
-      if (answerIndex !== -1) {
-        userAnswers[user.answeredPolls[answerIndex].userAnswer]++;
-        return true;
-      }
-      return false;
-    }).length;
-    this.setState({
-      userAnswers,
-      totalUsers
-    });
-  }
-
-  render() {
-    return(
+  return(
+    <div>
+      <h2>Results:</h2>
       <div>
-        <h2>Results:</h2>
-        {this.props.pollInfo.answers.map((answer, index) => {
-          return(
-            <div>
-              <h3>Would you rather {answer}</h3>
-              <progress value={this.state.userAnswers[index]} max={this.state.totalUsers} />
-            </div>
-          );
-        })}
+        <h3>Would you rather {props.question.optionOne.text}</h3>
+        <progress value={props.question.optionOne.votes.length} max={totalVotes} />
+        <div>{props.question.optionOne.votes.length} out of {totalVotes}</div>
       </div>
+      <div>
+        <h3>Would you rather {props.question.optionTwo.text}</h3>
+        <progress value={props.question.optionTwo.votes.length} max={totalVotes} />
+        <div>{props.question.optionTwo.votes.length} out of {totalVotes}</div>
+      </div>
+    </div>
     );
-  }
-};
+  };
 
-export default PollResults;
+  export default PollResults;

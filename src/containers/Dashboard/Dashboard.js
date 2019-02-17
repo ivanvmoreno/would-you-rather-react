@@ -5,14 +5,9 @@ import Poll from '../../components/Poll/Poll';
 import { Redirect } from 'react-router-dom';
 
 class Dashboard extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      filter: 'answered',
-      clickedPoll: '',
-    }
-    this.getFilteredQuestions = this.getFilteredQuestions.bind(this);
-    this.getUserFromId = this.getUserFromId.bind(this);
+  state = {
+    filter: 'unanswered',
+    clickedQuestion: '',
   }
 
   componentWillMount() {
@@ -22,53 +17,60 @@ class Dashboard extends Component {
   getFilteredQuestions() {
     let filteredQuestions = [];
     for (let question in this.props.questions) {
-      let isAnswered = this.props.loggedUser.answers.hasOwnProperty(this.props.questions[question].id) === true;
+      let isAnswered = this.props.users[this.props.loggedUser].answers.hasOwnProperty(this.props.questions[question].id) === true;
       if (isAnswered && this.state.filter === 'answered') {
         filteredQuestions.push(this.props.questions[question]);
       } else if (!isAnswered && this.state.filter === 'unanswered') {
         filteredQuestions.push(this.props.questions[question]);
       }
     }
-    return filteredQuestions;
+    return filteredQuestions.sort((a,b) => -a.timestamp+b.timestamp);
   }
 
-  getUserFromId(id) {
-    let match;
-    for (let user in this.props.users) {
-      let currentUser = this.props.users[user];
-      if (currentUser.id === id) {
-        match = currentUser;
-      }
-    }
-    return match;
+  handleQuestionClick(event) {
+    this.setState({
+      clickedQuestion: event.target.value
+    });
   }
 
-  handleViewPoll(questionId) {
-
+  handleFilterSwitch(event) {
+    this.setState({
+      filter: event.target.value
+    });
   }
+
+  getFilteredQuestions = this.getFilteredQuestions.bind(this);
+  handleQuestionClick = this.handleQuestionClick.bind(this);
+  handleFilterSwitch = this.handleFilterSwitch.bind(this);
 
   render() {
-    if (this.state.clickedPoll) {
-      return <Redirect to="/login" />;
+    if (this.state.clickedQuestion) {
+      return <Redirect to={`/questions/${this.state.clickedQuestion}`} />;
     }
 
     return(
       <div>
-        {this.getFilteredQuestions().map(question => {
-          let questionCreator = this.getUserFromId(question.author);
-          return(
-            <div>
-              <div>{questionCreator.name} asks...</div>
-              <div>
-                <div>Avatar</div>
+        <div>
+          <button type="button" value="unanswered" onClick={this.handleFilterSwitch}>View unanswered</button>
+          <button type="button" value="answered" onClick={this.handleFilterSwitch}>View answered</button>
+        </div>
+        <div>
+            {this.getFilteredQuestions().map(question => {
+            let questionCreator = this.props.users[question.author];
+            return(
+              <div key={question.id}>
+                <div>{questionCreator.name} asks...</div>
                 <div>
-                  <h3>Would you rather...</h3>
-                  <p>{question.optionOne.text}</p>
-                  <button type="button" onClick={() => this.setState({clickedPoll: 'dhdhh'})}>View poll</button>
+                  <div>Avatar</div>
+                  <div>
+                    <h3>Would you rather...</h3>
+                    <p>{question.optionOne.text}</p>
+                    <button type="button" value={question.id} onClick={this.handleQuestionClick}>View poll</button>
+                  </div>
                 </div>
-              </div>
-            </div>);
-        })}
+              </div>);
+          })}
+        </div>
       </div>
     );
   }

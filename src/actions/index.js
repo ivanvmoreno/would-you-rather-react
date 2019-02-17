@@ -1,4 +1,4 @@
-import { _getUsers, _getQuestions } from '../_DATA';
+import { _getUsers, _getQuestions, _saveQuestion, _saveQuestionAnswer } from '../_DATA';
 
 const getUsers = () => {
   return {
@@ -14,25 +14,19 @@ const getQuestions = () => {
   };
 };
 
-const newPoll = (answers, creator) => {
+const newPoll = (optionOneText, optionTwoText, author) => {
   return {
-    type: 'NEW_POLL',
-    payload: {
-      answers,
-      creator
-    }
+    type: 'NEW_QUESTION',
+    payload: _saveQuestion({ optionOneText, optionTwoText, author })
   };
 };
 
-const submitVote = (userId, pollId, answer) => {
-  return {
-    type: 'SUBMIT_VOTE',
-    payload: {
-      userId,
-      pollId,
-      answer
-    }
-  };
+const submitVote = (dispatch, question) => {
+  _saveQuestionAnswer(question)
+    .then(res => dispatch({
+      type: 'SUBMIT_VOTE',
+      payload: question
+    }));
 };
 
 const login = user => {
@@ -42,4 +36,10 @@ const login = user => {
   };
 };
 
-export { getUsers, getQuestions, newPoll, submitVote, login };
+const logout = () => {
+  return {
+    type: 'USER_LOGOUT'
+  }
+};
+
+export { getUsers, getQuestions, newPoll, submitVote, login, logout };
