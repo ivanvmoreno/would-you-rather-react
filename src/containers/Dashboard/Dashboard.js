@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { getQuestions } from '../../actions';
 import Poll from '../../components/Poll/Poll';
 import { Redirect } from 'react-router-dom';
+import './Dashboard.css';
 
 class Dashboard extends Component {
   state = {
@@ -49,20 +50,20 @@ class Dashboard extends Component {
     }
 
     return(
-      <div>
-        <div>
+      <div class="dashboard__container">
+        <div class="dashboard__switch">
           <button type="button" value="unanswered" onClick={this.handleFilterSwitch}>View unanswered</button>
           <button type="button" value="answered" onClick={this.handleFilterSwitch}>View answered</button>
         </div>
-        <div>
+        <div class="dashboard__questions">
             {this.getFilteredQuestions().map(question => {
             let questionCreator = this.props.users[question.author];
             return(
-              <div key={question.id}>
-                <div>{questionCreator.name} asks...</div>
-                <div>
+              <div key={question.id} class="dashboard__question">
+                <div class="dashboard__question--tagline">{questionCreator.name} asks...</div>
+                <div class="dashboard__question--body">
                   <div>Avatar</div>
-                  <div>
+                  <div class="dashboard__question--content">
                     <h3>Would you rather...</h3>
                     <p>{question.optionOne.text}</p>
                     <button type="button" value={question.id} onClick={this.handleQuestionClick}>View poll</button>

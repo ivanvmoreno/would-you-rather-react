@@ -7,6 +7,7 @@ import Navbar from '../containers/Navbar/Navbar';
 import NewPoll from '../containers/NewPoll/NewPoll';
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+import './app.css';
 
 class App extends Component {
   loggedUser() {
@@ -20,17 +21,17 @@ class App extends Component {
 
   render() {
     return(
-      <Router>
-        <div>
-          <Route component={Navbar} />
-          <Route exact path='/' render={() => this.loggedUser() ? <Dashboard /> : <Redirect to="/login" />} />
-          <Route exact path='/login' component={Login} />
-          <Route exact path='/questions/:id' render={(match) => this.loggedUser() ? <Poll match={match.match}/> : <Redirect to="/login" />} />
-          <Route exact path='/leaderboard' render={() => this.loggedUser() ? <Leaderboard /> : <Redirect to="/login" />} />
-          <Route exact path='/add' render={() => this.loggedUser() ? <NewPoll /> : <Redirect to="/login" />} />
-          {/* <Route component={PageNotFound} /> */}
-        </div>
-      </Router>
+        <Router>
+          <div class="app__container">
+            <Route component={Navbar} />
+            <Route exact path='/' render={() => this.loggedUser() ? <Dashboard /> : <Redirect to="/login" />} />
+            <Route exact path='/login' component={Login} />
+            <Route exact path='/questions/:id' render={(match) => this.loggedUser() ? <Poll match={match.match}/> : <Redirect to="/login" />} />
+            <Route exact path='/leaderboard' render={() => this.loggedUser() ? <Leaderboard /> : <Redirect to="/login" />} />
+            <Route exact path='/add' render={() => this.loggedUser() ? <NewPoll /> : <Redirect to="/login" />} />
+            {/* <Route component={PageNotFound} /> */}
+          </div>
+        </Router>
     );
   }
 }
