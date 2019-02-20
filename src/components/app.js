@@ -31,7 +31,7 @@ class App extends Component {
               <Route exact path='/questions/:id' render={(match) => this.loggedUser() ? <Poll match={match.match}/> : <Redirect to="/login" />} />
               <Route exact path='/leaderboard' render={() => this.loggedUser() ? <Leaderboard /> : <Redirect to="/login" />} />
               <Route exact path='/add' render={() => this.loggedUser() ? <NewPoll /> : <Redirect to="/login" />} />
-              <Route component={PageNotFound} />
+              <Route render={() => this.loggedUser() ? <PageNotFound /> : <Redirect to="/login" />} />
             </Switch>
           </div>
         </Router>

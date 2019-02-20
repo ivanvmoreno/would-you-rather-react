@@ -32,7 +32,7 @@ class Poll extends Component {
 
   render() {
     if (this.state.questionNotFound) {
-      return(<Redirect to="/" />);
+      return(<Redirect to="/notfound" />);
     }
 
     let question = {
