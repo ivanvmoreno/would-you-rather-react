@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { newPoll } from '../../actions';
 import { Redirect } from 'react-router-dom';
+import './NewPoll.css';
 
 class NewPoll extends Component {
   state = {
@@ -32,13 +33,14 @@ class NewPoll extends Component {
     }
 
     return(
-      <div>
-        <div>Create new question</div>
-        <div>
+      <div className="newpoll__wrapper">
+        <div className="newpoll__headline">Create New Question</div>
+        <div className="newpoll__body">
+          <div className="newpoll__body--instructions">Complete the question:</div>
           <h3>Would you rather...</h3>
-            <div>
+            <div className="newpoll__body--form">
               <input id="optionOne" type="text" onChange={this.handleInputChange} value={this.state.optionOne} />
-              <hr />
+              <div className="newpoll__body--or">OR</div>
               <input id="optionTwo" type="text" onChange={this.handleInputChange} value={this.state.optionTwo} />
               <button type="button" onClick={this.handleButtonClick}>Create new poll</button>
             </div>

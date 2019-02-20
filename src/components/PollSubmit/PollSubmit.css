@@ -1,0 +1,28 @@
+.submit__title {
+  margin: 0  0 1rem 0;
+}
+
+.submit__form {
+  display: flex;
+  flex-direction: column;
+}
+
+.submit__form input:first-of-type {
+  margin-bottom: .75rem;
+}
+
+.submit__wrapper button {
+  margin-top: .5rem;
+  width: 100%;
+  padding: .75rem;
+  font-size: 1rem;
+  background-color: #23d276;
+  color: white;
+  border: 1px solid #23d276;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.submit__wrapper button:active {
+  background-color: #19c86c;
+}

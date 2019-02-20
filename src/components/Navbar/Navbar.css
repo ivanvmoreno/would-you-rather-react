@@ -1,0 +1,36 @@
+.navbar__wrapper {
+  display: flex;
+  justify-content: space-between;
+  width: 80vw;
+  margin: 1.5rem;
+}
+
+.navbar__defaultmenu, .navbar__loggedmenu {
+  display: flex;
+  align-items: center;
+}
+
+.navbar__defaultmenu li, .navbar__loggedmenu li  {
+  list-style-type: none;
+}
+
+.navbar__loggedmenu img {
+  width: 3vw;
+  padding-left: .75rem;
+}
+
+.navbar__defaultmenu li > a, .navbar__loggedmenu li > a {
+  padding: .75rem;
+  margin: .5rem;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.navbar__wrapper li > a:hover, .current-page:last-of-type {
+  background-color: #23d276;
+  color: white !important;
+}
+
+a, a:visited {
+  color: inherit;
+}

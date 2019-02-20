@@ -50,22 +50,22 @@ class Dashboard extends Component {
     }
 
     return(
-      <div class="dashboard__container">
-        <div class="dashboard__switch">
-          <button type="button" value="unanswered" onClick={this.handleFilterSwitch}>View unanswered</button>
-          <button type="button" value="answered" onClick={this.handleFilterSwitch}>View answered</button>
+      <div className="dashboard__container">
+        <div className="dashboard__switch">
+          <button className={(this.state.filter === 'unanswered' ? 'dashboard__switch--active' : '')} type="button" value="unanswered" onClick={this.handleFilterSwitch}>View unanswered</button>
+          <button className={(this.state.filter === 'answered' ? 'dashboard__switch--active' : '')} type="button" value="answered" onClick={this.handleFilterSwitch}>View answered</button>
         </div>
-        <div class="dashboard__questions">
+        <div className="dashboard__questions">
             {this.getFilteredQuestions().map(question => {
             let questionCreator = this.props.users[question.author];
             return(
-              <div key={question.id} class="dashboard__question">
-                <div class="dashboard__question--tagline">{questionCreator.name} asks...</div>
-                <div class="dashboard__question--body">
-                  <div>Avatar</div>
-                  <div class="dashboard__question--content">
+              <div key={question.id} className="dashboard__question">
+                <div className="dashboard__question--author">{questionCreator.name} asks...</div>
+                <div className="dashboard__question--body">
+                  <div className="dashboard__question--useravatar"><img src={questionCreator.avatarURL} alt={questionCreator.name} /></div>
+                  <div className="dashboard__question--content">
                     <h3>Would you rather...</h3>
-                    <p>{question.optionOne.text}</p>
+                    <p>...{question.optionOne.text}</p>
                     <button type="button" value={question.id} onClick={this.handleQuestionClick}>View poll</button>
                   </div>
                 </div>

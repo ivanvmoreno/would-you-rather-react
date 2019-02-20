@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import Select from 'react-select';
 import { getUsers, login } from '../../actions';
+import './Login.css';
 
 class Login extends Component {
   constructor(props) {
@@ -50,13 +51,24 @@ class Login extends Component {
     }
 
     return(
-      <div>
-        <Select
-          value={this.state.selectedUser}
-          onChange={this.handleUserSelected}
-          options={this.getSelectOptions()}
-        />
-        <input type="button" value="Log in!" onClick={this.handleLogin} />
+      <div className="login__wrapper">
+        <div className="login__headline">
+          <h4>Welcome to the Would You Rather App!</h4>
+          <span>Please sign in to continue</span>
+        </div>
+        <div className="login__body">
+        <div class="login__body--image">
+          <img src="/login.png" alt="login" />
+        </div>
+          <h3>Sign in</h3>
+          <Select
+            className="login__body--selector"
+            value={this.state.selectedUser}
+            onChange={this.handleUserSelected}
+            options={this.getSelectOptions()}
+          />
+          <button type="button" onClick={this.handleLogin}>Sign in</button>
+        </div>
       </div>
     );
   }

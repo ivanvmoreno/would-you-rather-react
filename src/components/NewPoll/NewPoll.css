@@ -1,0 +1,79 @@
+.newpoll__wrapper {
+  width: 50vw;
+  border: 1px solid #d3d3d3;
+  border-radius: 5px;
+}
+
+.newpoll__headline {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-bottom: 1px solid #d3d3d3;
+  padding: .75rem;
+  font-size: 1.75rem;
+  font-weight: bold;
+}
+
+.newpoll__body {
+  display: flex;
+  flex-direction: column;
+  padding: .75rem;
+}
+
+.newpoll__body--form {
+  display: flex;
+  flex-direction: column;
+}
+
+.newpoll__body h3 {
+  margin-bottom: .65rem;
+}
+
+.newpoll__body--form input {
+  background-color: hsl(0,0%,100%);
+  border-color: hsl(0,0%,80%);
+  border-radius: 4px;
+  border-style: solid;
+  border-width: 1px;
+  cursor: default;
+  min-height: 2rem;
+  font-size: 1rem;
+  padding: .25rem .75rem;
+}
+
+.newpoll__body--or {
+	display: flex;
+	flex-basis: 100%;
+	align-items: center;
+	margin: .5rem 0;
+  font-weight: bold;
+}
+.newpoll__body--or::before,
+.newpoll__body--or::after {
+	content: "";
+	flex-grow: 1;
+	background: #d3d3d3;
+	height: 1px;
+	font-size: 0;
+	line-height: 0;
+}
+
+.newpoll__body--or::before {
+  margin-right: .5rem;
+}
+
+.newpoll__body--or::after {
+  margin-left: .5rem;
+}
+
+.newpoll__body--form button {
+  width: 100%;
+  padding: .75rem;
+  margin-top: .75rem;
+  font-size: 1rem;
+  background-color: #23d276;
+  color: white;
+  border: 1px solid #23d276;
+  border-radius: 5px;
+  cursor: pointer;
+}

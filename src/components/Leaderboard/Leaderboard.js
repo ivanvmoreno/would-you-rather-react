@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import './Leaderboard.css';
 
 const getLeaders = (users) => {
   const filteredUsers = [];
@@ -24,17 +25,26 @@ const getLeaders = (users) => {
 
 const Leaderboard = props => {
   return(
-    <div>
+    <div className="leaderboard__wrapper">
       {getLeaders(props.users).map(leader => {
         return (
-          <div key={leader.id}>
-            <div>Photo</div>
-            <div>
+          <div key={leader.id} className="leaderboard__leader">
+            <div className="leaderboard__leader--avatar"><img src={`/${leader.avatarURL}`} alt={leader.name} /></div>
+            <div className="leaderboard__leader--content">
               <h2>{leader.name} {leader.name.last}</h2>
-              <div>Answered questions: {leader.answeredPolls}</div>
-              <div>Created questions: {leader.createdPolls}</div>
+              <div className="leaderboard__leader--stats">
+                <div className="leaderboard__leader--stats-heading">Answered questions</div>
+                <div className="leaderboard__leader--stats-score">{leader.answeredPolls}</div>
+              </div>
+              <div className="leaderboard__leader--stats">
+                <div className="leaderboard__leader--stats-heading">Created questions</div>
+                <div className="leaderboard__leader--stats-score">{leader.createdPolls}</div>
+              </div>
             </div>
-            <div>Score: {leader.score}</div>
+            <div className="leaderboard__leader--score">
+              <div className="leaderboard__leader--score-heading">Score</div>
+              <div className="leaderboard__leader--score-result">{leader.score}</div>
+            </div>
           </div>
         );
       })}

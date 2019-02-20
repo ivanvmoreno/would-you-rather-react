@@ -1,0 +1,17 @@
+.notfound__wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 55vh;
+  align-items: center;
+}
+
+.notfound__error {
+  font-size: 4rem;
+}
+
+.notfound__number {
+  font-size: 10rem;
+  font-weight: bold;
+  line-height: 9rem;
+}
