@@ -6,7 +6,8 @@ import Leaderboard from '../components/Leaderboard/Leaderboard';
 import Navbar from '../components/Navbar/Navbar';
 import NewPoll from '../components/NewPoll/NewPoll';
 import PageNotFound from '../components/PageNotFound/PageNotFound';
-import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
+import PrivateRoute from '../components/PrivateRoute/PrivateRoute';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import './app.css';
 
@@ -21,17 +22,19 @@ class App extends Component {
   loggedUser = this.loggedUser.bind(this);
 
   render() {
+    const isAuthenticated = this.loggedUser();
+
     return(
         <Router>
           <div className="app__container">
             <Navbar />
             <Switch>
-              <Route exact path='/' render={() => this.loggedUser() ? <Dashboard /> : <Redirect to="/login" />} />
+              <PrivateRoute exact path='/' component={Dashboard} userAuthenticated={isAuthenticated} />
               <Route exact path='/login' component={Login} />
-              <Route exact path='/questions/:id' render={(match) => this.loggedUser() ? <Poll match={match.match}/> : <Redirect to="/login" />} />
-              <Route exact path='/leaderboard' render={() => this.loggedUser() ? <Leaderboard /> : <Redirect to="/login" />} />
-              <Route exact path='/add' render={() => this.loggedUser() ? <NewPoll /> : <Redirect to="/login" />} />
-              <Route render={() => this.loggedUser() ? <PageNotFound /> : <Redirect to="/login" />} />
+              <PrivateRoute exact path='/questions/:id' component={Poll} userAuthenticated={isAuthenticated} />
+              <PrivateRoute exact path='/leaderboard' component={Leaderboard} userAuthenticated={isAuthenticated} />
+              <PrivateRoute exact path='/add' component={NewPoll} userAuthenticated={isAuthenticated} />
+              <Route component={PageNotFound} />
             </Switch>
           </div>
         </Router>
