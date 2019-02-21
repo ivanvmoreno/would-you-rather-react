@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getQuestions } from '../../actions';
-import Poll from '../../components/Poll/Poll';
 import { Redirect } from 'react-router-dom';
 import './Dashboard.css';
 
