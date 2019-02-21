@@ -6,15 +6,10 @@ import { getUsers, login } from '../../actions';
 import './Login.css';
 
 class Login extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedUser: '',
-      toDashboard: false
-    }
-    this.getSelectOptions = this.getSelectOptions.bind(this);
-    this.handleUserSelected = this.handleUserSelected.bind(this);
-    this.handleLogin = this.handleLogin.bind(this);
+  state = {
+    selectedUser: '',
+    toDashboard: false,
+    redirectToReferrer: false
   }
 
   componentDidMount() {
@@ -39,15 +34,27 @@ class Login extends Component {
   handleLogin() {
     if (this.state.selectedUser) {
       this.props.login(this.state.selectedUser.value);
-      this.setState({
-        toDashboard: true
-      });
+      if (this.props.location.state.referrer) {
+        this.setState({
+          redirectToReferrer: true
+        });
+      } else {
+        this.setState({
+          toDashboard: true
+        });
+      }
     }
   }
+
+  getSelectOptions = this.getSelectOptions.bind(this);
+  handleUserSelected = this.handleUserSelected.bind(this);
+  handleLogin = this.handleLogin.bind(this);
 
   render() {
     if (this.state.toDashboard) {
       return(<Redirect to="/" />);
+    } else if (this.state.redirectToReferrer) {
+      return(<Redirect to={this.props.location.state.referrer} />)
     }
 
     return(
@@ -57,7 +64,7 @@ class Login extends Component {
           <span>Please sign in to continue</span>
         </div>
         <div className="login__body">
-        <div class="login__body--image">
+        <div className="login__body--image">
           <img src="/login.png" alt="login" />
         </div>
           <h3>Sign in</h3>
